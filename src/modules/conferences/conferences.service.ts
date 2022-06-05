@@ -34,4 +34,24 @@ export class ConferencesService {
       .exec();
     return deletedConference;
   }
+
+  async update(
+    id: string,
+    updateConference: ConferenceDto,
+  ): Promise<Conference> {
+    const updatedConference = await this.conferenceModel
+      .findByIdAndUpdate(
+        {
+          _id: id,
+        },
+        {
+          $set: updateConference,
+        },
+        {
+          new: true,
+        },
+      )
+      .exec();
+    return updatedConference;
+  }
 }

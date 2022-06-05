@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Get, Delete, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { ConferencesService } from './conferences.service';
 
 @Controller('conferences')
@@ -18,6 +26,11 @@ export class ConferencesController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.conferenceService.findOne(id);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateConference: any) {
+    return await this.conferenceService.update(id, updateConference);
   }
 
   @Delete(':id')
