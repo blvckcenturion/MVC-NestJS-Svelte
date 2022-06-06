@@ -1,4 +1,4 @@
-import { Participant } from 'src/modules/participants/schemas/participant.schema';
+import { Participant } from 'src/participants/schemas/participant.schema';
 
 export class Conference {
   public name: string;

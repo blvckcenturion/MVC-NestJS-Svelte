@@ -1,9 +1,11 @@
+import { ParticipantsModule } from './participants/participants.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { ConferencesModule } from './modules/conferences/conferences.module';
+import { ConferencesModule } from './conferences/conferences.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { ConferencesModule } from './modules/conferences/conferences.module';
       },
     ),
     ConferencesModule,
+    AuthModule,
+    ParticipantsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

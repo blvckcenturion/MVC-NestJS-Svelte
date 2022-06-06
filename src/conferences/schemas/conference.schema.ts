@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Participant } from '../../participants/schemas/participant.schema';
+import { Participant } from 'src/participants/schemas/participant.schema';
 
 export type ConferenceDocument = Conference & Document;
 
