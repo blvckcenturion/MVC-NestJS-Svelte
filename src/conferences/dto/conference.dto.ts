@@ -1,4 +1,4 @@
-import { Participant } from 'src/participants/schemas/participant.schema';
+import { User } from 'src/users/schemas/user.schema';
 
 export class Conference {
   public name: string;
@@ -6,7 +6,7 @@ export class Conference {
   public endDate: Date;
   public description: string;
   public presenters: string[];
-  public participants: Participant[];
+  public participants: User[];
   public country: string;
   public city: string;
   public image: string;

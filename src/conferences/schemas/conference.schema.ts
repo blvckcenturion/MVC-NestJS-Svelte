@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Participant } from 'src/participants/schemas/participant.schema';
+
+import { User } from 'src/users/schemas/user.schema';
 
 export type ConferenceDocument = Conference & Document;
 
@@ -22,10 +23,10 @@ export class Conference {
   presenters: string[];
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Participant' }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     required: true,
   })
-  participants: Participant[];
+  participants: User[];
 
   @Prop({ required: true })
   country: string;

@@ -1,4 +1,4 @@
-export class ParticipantDto {
+export class UserDto {
   email: string;
   firstName: string;
   lastName: string;
