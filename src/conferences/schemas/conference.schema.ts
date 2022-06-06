@@ -7,6 +7,9 @@ export type ConferenceDocument = Conference & Document;
 
 @Schema()
 export class Conference {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  userId: string;
+
   @Prop({ required: true })
   name: string;
 

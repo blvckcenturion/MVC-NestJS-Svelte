@@ -6,19 +6,24 @@ import {
   Delete,
   Param,
   Patch,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ConferencesService } from './conferences.service';
 
 @Controller('conferences')
 export class ConferencesController {
   constructor(private readonly conferenceService: ConferencesService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createConference: any) {
+  async create(@Request() req, @Body() createConference: any) {
+    createConference.userId = req.user.userId;
     return await this.conferenceService.create(createConference);
   }
 
-  @Get()
+  @Get('/')
   async findAll() {
     return await this.conferenceService.findAll();
   }
@@ -28,13 +33,23 @@ export class ConferencesController {
     return await this.conferenceService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateConference: any) {
-    return await this.conferenceService.update(id, updateConference);
+  async update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updateConference: any,
+  ) {
+    return await this.conferenceService.update(
+      id,
+      req.user.userId,
+      updateConference,
+    );
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return await this.conferenceService.delete(id);
+  async delete(@Request() req, @Param('id') id: string) {
+    return await this.conferenceService.delete(id, req.user.userId);
   }
 }

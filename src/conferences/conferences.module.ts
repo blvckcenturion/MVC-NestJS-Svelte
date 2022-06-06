@@ -1,3 +1,4 @@
+import { AuthModule } from './../auth/auth.module';
 import { Module } from '@nestjs/common';
 import { ConferencesService } from './conferences.service';
 import { ConferencesController } from './conferences.controller';
@@ -11,6 +12,7 @@ import { Conference, ConferenceSchema } from './schemas/conference.schema';
     MongooseModule.forFeature([
       { name: Conference.name, schema: ConferenceSchema },
     ]),
+    AuthModule,
   ],
   providers: [ConferencesService],
   controllers: [ConferencesController],

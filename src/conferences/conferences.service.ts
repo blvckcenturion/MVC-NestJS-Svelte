@@ -26,23 +26,28 @@ export class ConferencesService {
     return this.conferenceModel.findOne({ _id: id }).exec();
   }
 
-  async delete(id: string) {
+  async delete(id: string, userId: string) {
     const deletedConference = await this.conferenceModel
-      .findByIdAndRemove({
+      .findOne({
         _id: id,
+        userId,
       })
+      .remove()
       .exec();
     return deletedConference;
   }
 
   async update(
     id: string,
+    userId: string,
     updateConference: ConferenceDto,
   ): Promise<Conference> {
     const updatedConference = await this.conferenceModel
-      .findByIdAndUpdate(
+
+      .findOneAndUpdate(
         {
           _id: id,
+          userId,
         },
         {
           $set: updateConference,
@@ -54,4 +59,31 @@ export class ConferencesService {
       .exec();
     return updatedConference;
   }
+
+  async addParticipant(
+    id: string,
+    userId: string,
+    participantId: string,
+  ): Promise<Conference> {
+    const updatedConference = await this.conferenceModel
+      .findOneAndUpdate(
+        {
+          _id: id,
+          userId,
+        },
+        {
+          $push: {
+            participants: participantId,
+          },
+        },
+        {
+          new: true,
+        },
+      )
+      .exec();
+    return updatedConference;
+  }
+  // async findByUserId(userId: string): Promise<Conference[]> {
+  //   return this.conferenceModel.find({ userId }).exec();
+  // }
 }

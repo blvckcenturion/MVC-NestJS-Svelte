@@ -1,6 +1,7 @@
 import { User } from 'src/users/schemas/user.schema';
 
 export class Conference {
+  public userId: string;
   public name: string;
   public startDate: Date;
   public endDate: Date;

@@ -22,7 +22,6 @@ export class AuthService {
   }
 
   async login(user: any) {
-    console.log(user);
     const {
       _doc: { _id, email },
     } = user;
