@@ -8,6 +8,7 @@ import {
   Patch,
   Request,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ConferencesService } from './conferences.service';
@@ -24,8 +25,8 @@ export class ConferencesController {
   }
 
   @Get('/')
-  async findAll() {
-    return await this.conferenceService.findAll();
+  async findAll(@Query() query: any) {
+    return await this.conferenceService.findAll(query);
   }
 
   @Get(':id')

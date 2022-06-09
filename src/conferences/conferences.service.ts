@@ -18,7 +18,17 @@ export class ConferencesService {
     return await createdConference.save();
   }
 
-  async findAll(): Promise<Conference[]> {
+  async findAll(query: any): Promise<Conference[]> {
+    if (query.hasOwnProperty('startDate') && query.hasOwnProperty('endDate')) {
+      return this.conferenceModel
+        .find({
+          startDate: {
+            $gte: query.startDate,
+            $lte: query.endDate,
+          },
+        })
+        .exec();
+    }
     return this.conferenceModel.find().exec();
   }
 
