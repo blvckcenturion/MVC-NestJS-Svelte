@@ -1,16 +1,23 @@
 <script>
     import Layout from './Layout.svelte';
-    export let message;
+    import Container from './components/Container.svelte';
+import { copyFile } from 'fs';
+    export let conferences;
 </script>
 <Layout>
-    <h1>{message}</h1>
+  <div class="page-container">
+    {#each conferences as conf}
+      <Container city={conf.city} conferences={conf.conferences}/>
+    {/each}
+  </div>
 </Layout>
 
 <style>
-    h1 {
-      color: purple;
-    }
-    :global(body) {
-      background-color: pink;
-    }
+  .page-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 </style>

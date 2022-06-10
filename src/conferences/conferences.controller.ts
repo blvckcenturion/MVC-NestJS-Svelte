@@ -49,6 +49,18 @@ export class ConferencesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Patch(':id/participants')
+  async addParticipant(@Request() req, @Param('id') id: string) {
+    return await this.conferenceService.addParticipant(id, req.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id/participants')
+  async removeParticipant(@Request() req, @Param('id') id: string) {
+    return await this.conferenceService.removeParticipant(id, req.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Request() req, @Param('id') id: string) {
     return await this.conferenceService.delete(id, req.user.userId);

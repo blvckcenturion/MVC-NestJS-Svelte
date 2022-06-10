@@ -18,8 +18,11 @@ export class ConferencesService {
     return await createdConference.save();
   }
 
-  async findAll(query: any): Promise<Conference[]> {
-    if (query.hasOwnProperty('startDate') && query.hasOwnProperty('endDate')) {
+  async findAll(query?: any): Promise<Conference[]> {
+    if (
+      query?.hasOwnProperty('startDate') &&
+      query?.hasOwnProperty('endDate')
+    ) {
       return this.conferenceModel
         .find({
           startDate: {
@@ -70,30 +73,33 @@ export class ConferencesService {
     return updatedConference;
   }
 
-  async addParticipant(
-    id: string,
-    userId: string,
-    participantId: string,
-  ): Promise<Conference> {
-    const updatedConference = await this.conferenceModel
-      .findOneAndUpdate(
-        {
-          _id: id,
-          userId,
-        },
-        {
-          $push: {
+  async addParticipant(id: string, participantId: string) {
+    const conference = await this.conferenceModel.findOne({ _id: id }).exec();
+    if (conference.userId !== participantId) {
+      await conference
+        .updateOne({
+          $addToSet: {
             participants: participantId,
           },
-        },
-        {
-          new: true,
-        },
-      )
-      .exec();
-    return updatedConference;
+        })
+        .exec();
+    } else {
+      throw new Error('You cannot add yourself to your own conference');
+    }
   }
-  // async findByUserId(userId: string): Promise<Conference[]> {
-  //   return this.conferenceModel.find({ userId }).exec();
-  // }
+
+  async removeParticipant(id: string, participantId: string) {
+    const conference = await this.conferenceModel.findOne({ _id: id }).exec();
+    if (conference.userId !== participantId) {
+      await conference
+        .updateOne({
+          $pull: {
+            participants: participantId,
+          },
+        })
+        .exec();
+    } else {
+      throw new Error('You cannot remove yourself from your own conference');
+    }
+  }
 }

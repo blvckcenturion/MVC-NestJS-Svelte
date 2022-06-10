@@ -1,5 +1,3 @@
-import { User } from 'src/users/schemas/user.schema';
-
 export class Conference {
   public userId: string;
   public name: string;
@@ -7,7 +5,7 @@ export class Conference {
   public endDate: Date;
   public description: string;
   public presenters: string[];
-  public participants: User[];
+  public participants: string[];
   public country: string;
   public city: string;
   public image: string;

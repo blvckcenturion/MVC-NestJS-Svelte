@@ -16,5 +16,6 @@ import { Conference, ConferenceSchema } from './schemas/conference.schema';
   ],
   providers: [ConferencesService],
   controllers: [ConferencesController],
+  exports: [ConferencesService],
 })
 export class ConferencesModule {}

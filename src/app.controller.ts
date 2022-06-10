@@ -1,3 +1,4 @@
+import { ConferencesService } from './conferences/conferences.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import {
   Controller,
@@ -14,12 +15,29 @@ import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private conferencesService: ConferencesService,
+  ) {}
 
   @Get()
   @Render('Home')
-  getHello() {
-    return { message: 'I <3 Svelte!' };
+  async getHome() {
+    const conferences = (await this.conferencesService.findAll()).reduce(
+      (acc, value) => {
+        if (acc.filter((item) => item.city === value.city).length === 0) {
+          acc.push({
+            city: value.city,
+            conferences: [],
+          });
+        }
+        const index = acc.findIndex((item) => item.city === value.city);
+        acc[index].conferences.push(value);
+        return acc;
+      },
+      [],
+    );
+    return { conferences };
   }
 
   @Get('/about')
