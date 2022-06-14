@@ -2,6 +2,10 @@
     export let name;
     export let date;
     export let presenters;
+
+    function handleClick() {
+        console.log("Clicked!");
+    }
 </script>
 
 
@@ -18,7 +22,7 @@
             <p>Por: {`${presenters[0]} ${presenters.length > 1 ? `y ${presenters.length-1}+` : ''}`}</p>
         </div>
     </div>
-    <div class="card-action">
+    <div class="card-action" on:click={handleClick}>
         <p>Quiero Inscribirme</p>
     </div>
 </div>
