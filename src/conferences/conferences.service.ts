@@ -32,7 +32,30 @@ export class ConferencesService {
         })
         .exec();
     }
-    return this.conferenceModel.find().exec();
+    // {
+    //   startDate: {
+    //     $gte: Date.now(),
+    //   },
+    // }
+    return (await this.conferenceModel.find().exec()).reduce((acc, value) => {
+      if (acc.filter((item) => item.city === value.city).length === 0) {
+        acc.push({
+          city: value.city,
+          conferences: [],
+        });
+      }
+      const index = acc.findIndex((item) => item.city === value.city);
+      acc[index].conferences.push(value);
+      return acc;
+    }, []);
+  }
+
+  async findByCreator(userId: string) {
+    return this.conferenceModel.find({ userId }).exec();
+  }
+
+  async findByParticipant(userId: string) {
+    return this.conferenceModel.find({ participants: userId }).exec();
   }
 
   async findOne(id: string): Promise<Conference> {

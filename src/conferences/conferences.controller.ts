@@ -28,6 +28,17 @@ export class ConferencesController {
   async findAll(@Query() query: any) {
     return await this.conferenceService.findAll(query);
   }
+  @UseGuards(JwtAuthGuard)
+  @Get('/creator')
+  async findAllByUser(@Request() req) {
+    return await this.conferenceService.findByCreator(req.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/participant')
+  async findAllByParticipant(@Request() req) {
+    return await this.conferenceService.findByParticipant(req.user.userId);
+  }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {

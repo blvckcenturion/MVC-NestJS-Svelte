@@ -1,13 +1,6 @@
 import { ConferencesService } from './conferences/conferences.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import {
-  Controller,
-  Get,
-  Render,
-  UseGuards,
-  Post,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Request } from '@nestjs/common';
 
 import { AuthService } from './auth/auth.service';
 
@@ -21,7 +14,6 @@ export class AppController {
   ) {}
 
   @Get()
-  @Render('Home')
   async getHome() {
     const conferences = (await this.conferencesService.findAll()).reduce(
       (acc, value) => {
@@ -41,7 +33,6 @@ export class AppController {
   }
 
   @Get('/about')
-  @Render('About')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   getAbout() {}
 
