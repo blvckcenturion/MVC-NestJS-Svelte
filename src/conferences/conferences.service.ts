@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Conference, ConferenceDocument } from './schemas/conference.schema';
+import { User, UserDocument } from '../users/schemas/user.schema';
 import { Conference as ConferenceDto } from './dto/conference.dto';
 
 // Controllers should handle HTTP requests and delegate more complex tasks to providers.
@@ -11,6 +12,8 @@ export class ConferencesService {
   constructor(
     @InjectModel(Conference.name)
     private conferenceModel: Model<ConferenceDocument>,
+    @InjectModel(User.name)
+    private userModel: Model<UserDocument>,
   ) {}
 
   async create(createConference: ConferenceDto): Promise<Conference> {
@@ -48,6 +51,16 @@ export class ConferencesService {
       acc[index].conferences.push(value);
       return acc;
     }, []);
+  }
+
+  async findAllParticipants(id: string) {
+    const conference = await this.conferenceModel.findOne({ _id: id }).exec();
+    const users = [];
+    for (const p of conference.participants) {
+      const user = await this.userModel.findOne({ _id: p }).exec();
+      users.push(user);
+    }
+    return users;
   }
 
   async findByCreator(userId: string) {

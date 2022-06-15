@@ -76,4 +76,10 @@ export class ConferencesController {
   async delete(@Request() req, @Param('id') id: string) {
     return await this.conferenceService.delete(id, req.user.userId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id/participants')
+  async findAllParticipants(@Param('id') id: string) {
+    return await this.conferenceService.findAllParticipants(id);
+  }
 }
